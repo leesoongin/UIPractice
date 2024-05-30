@@ -15,7 +15,12 @@ let project = Project(
             ),
             sources: ["UIPractice/Sources/**"],
             resources: ["UIPractice/Resources/**"],
-            dependencies: []
+            dependencies: [
+                .external(name: "Then"),
+                .external(name: "SnapKit"),
+                .external(name: "CombineExt"),
+                .external(name: "CombineCocoa")
+            ]
         ),
         .target(
             name: "UIPracticeTests",
