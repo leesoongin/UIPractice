@@ -15,8 +15,9 @@ import PackageDescription
 let package = Package(
     name: "UIPractice",
     dependencies: [
-        // Add your own dependencies here:
-        // .package(url: "https://github.com/Alamofire/Alamofire", from: "5.0.0"),
-        // You can read more about dependencies here: https://docs.tuist.io/documentation/tuist/dependencies
+        .package(url: "https://github.com/devxoul/Then", exact: "3.0.0"),
+        .package(url: "https://github.com/SnapKit/SnapKit.git", .upToNextMajor(from: "5.0.1")),
+        .package(url: "https://github.com/CombineCommunity/CombineExt.git", exact: "1.8.1"),
+        .package(url: "https://github.com/CombineCommunity/CombineCocoa.git", exact: "0.4.1")
     ]
 )
