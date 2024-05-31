@@ -1,18 +1,19 @@
 //
-//  MainViewController.swift
+//  ReadyViewController.swift
 //  UIPractice
 //
-//  Created by 이숭인 on 5/30/24.
+//  Created by 이숭인 on 5/31/24.
 //
 
 import UIKit
+import Combine
 import SnapKit
 import Then
-import Combine
 import CombineCocoa
 
-final class MainViewController: UIViewController {
+final class ReadyViewController: UIViewController {
     var cancellables = Set<AnyCancellable>()
+    var viewModel: ReadyViewModel
     
     private let textField: UITextField = UITextField().then {
         $0.placeholder = "placeholder"
@@ -23,8 +24,19 @@ final class MainViewController: UIViewController {
     }
     private let bottomLayoutView: UIView = UIView()
     
+    init(_ viewModel: ReadyViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        view.backgroundColor = .white
         
         setupSubviews()
         setupConstraints()
@@ -33,6 +45,10 @@ final class MainViewController: UIViewController {
         bindAction()
     }
     
+    deinit {
+        print("ReadyViewController deinit")
+    }
+
     private func setupSubviews() {
         view.addSubview(textField)
         view.addSubview(bottomButton)
@@ -74,10 +90,7 @@ final class MainViewController: UIViewController {
     private func bindAction() {
         bottomButton.tap
             .sink { [weak self] _ in
-                let secondVC = UIViewController()
-                secondVC.title = "secondVC"
-                secondVC.view.backgroundColor = .brown
-                self?.navigationController?.pushViewController(secondVC, animated: true)
+                self?.viewModel.didTapBottomButton()
             }
             .store(in: &cancellables)
     }
@@ -91,11 +104,17 @@ final class MainViewController: UIViewController {
             self.view.layoutIfNeeded()
         }
     }
-}
-
-extension MainViewController {
+    
     private func setFirstResponder() {
         textField.becomeFirstResponder()
+    }
+}
+
+final class ReadyViewModel {
+    weak var coordinator: TabCoordinator?
+    
+    func didTapBottomButton() {
+        coordinator?.selectPage(.steady)
     }
 }
 
